@@ -15,7 +15,7 @@ jobs:
         run: |
           docker build -t chee2e/gogleshop .
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: chee2e/trivy-test@main
         with:
           image-ref: 'chee2e/gogleshop'
           format: 'table'
