@@ -60,7 +60,7 @@ jobs:
       - name: Push trivy results to GitHub repository
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ secrets.GIT_TOKEN }}
           repository: chee2e/trivy-test
           branch: main
           directory: .
