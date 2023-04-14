@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 # copy app files
 COPY app.py /app/
-COPY requirements.txt /app/
+COPY requirements.txt /app/requirements.txt
 
 # install app dependencies
 WORKDIR /app
