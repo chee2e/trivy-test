@@ -45,6 +45,10 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/chee2e/testweb:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
