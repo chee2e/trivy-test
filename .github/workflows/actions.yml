@@ -50,11 +50,20 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          format: 'json'
+          output: 'trivy-results.json'
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
+      - name: Add JSON file to Git repository
+        run: |
+          git config --global user.email "pinkc47@naver.com"
+          git config --global user.name "chee2e"
+          git add trivy-results.json
+          git commit -m "Add Trivy scan results"
+
+      - name: Push changes to Git repository
+        uses: ad-m/github-push-action@v0.6.0
         with:
-          sarif_file: 'trivy-results.sarif'
+          branch: main
+          directory: .
+          github_token: ${{ secrets.GIT_TOKEN }}
+          force: true
