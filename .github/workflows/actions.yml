@@ -57,11 +57,13 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
       
-      - name: Save Trivy scan result
-        uses: actions/upload-artifact@v2
+      - name: Push trivy results to GitHub repository
+        uses: ad-m/github-push-action@master
         with:
-          name: trivy-results
-          path: ./trivy-results.json
+          github_token: ${{ secrets.GIT_TOKEN }}
+          branch: main
+          directory: .
+          commit_message: Add trivy results
 
 #       - name: Run Trivy vulnerability scanner in fs mode
 #         uses: aquasecurity/trivy-action@master
