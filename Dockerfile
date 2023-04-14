@@ -1,22 +1,20 @@
-FROM ubuntu:latest
+FROM node:erbium-buster-slim
 
 LABEL "repository"="https://github.com/chee2e/trivy-test"
 LABEL "maintainer"="chee2e <pinkc47@naver.com>"
 
-# update and install packages
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+RUN set -eux ; \
+    apt-get update -y; \
+    apt-get install --no-install-recommends -y \
+    tzdata; \
+    ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime; \
+    mkdir /html; \
+    npm install -g http-server; \
+    apt-get install -y vim
 
-# copy app files
-COPY app.py /app/
-COPY requirements.txt /app/requirements.txt
+ADD ./index.html /html
 
-# install app dependencies
-WORKDIR /app
-RUN pip3 install -r requirements.txt
+WORKDIR /html
+EXPOSE 80
 
-# expose port and start app
-EXPOSE 8000
-CMD ["python3", "app.py"]
+CMD ["http-server", "-p80", "./"]
