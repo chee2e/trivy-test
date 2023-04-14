@@ -47,15 +47,22 @@ jobs:
         
       - name: Build Docker image
         run: docker build -t chee2e/testweb:${{ github.sha }} .
-
-      - name: Run Trivy vulnerability scanner
+        
+      - name: Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'chee2e/testweb:${{ github.sha }}'
-          format: 'json'
-          output: 'trivy-results.json'
-          exit-code: '0'
-          ignore-unfixed: true
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
+
+#       - name: Run Trivy vulnerability scanner
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           image-ref: 'chee2e/testweb:${{ github.sha }}'
+#           format: 'json'
+#           output: 'trivy-results.json'
+#           exit-code: '0'
+#           ignore-unfixed: true
       
       - name: Push trivy results to GitHub repository
         uses: ad-m/github-push-action@master
@@ -64,13 +71,6 @@ jobs:
           repository: chee2e/trivy-test
           branch: main
           directory: .
-
-#       - name: Run Trivy vulnerability scanner in fs mode
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-#           scan-ref: '.'
-#           trivy-config: trivy.yaml
           
 #       - name: Upload Trivy results to Github repository
 #         uses: actions/upload-artifact@v2
