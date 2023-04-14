@@ -46,12 +46,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run Trivy in GitHub SBOM mode and submit results to Dependency Graph
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          format: 'json'
-          output: 'dependency-results.json'
-          path: '/'
-          image-ref: '.'
-          github-pat: ${{ secrets.GIT_TOKEN }} # or ${{ secrets.github_pat_name }} if you're using a PAT
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
