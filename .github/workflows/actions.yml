@@ -70,3 +70,14 @@ jobs:
         with:
           name: results
           path: results.json
+          
+      - name: Push Trivy results to repository
+        run: |
+          git config --global user.email "pinkc47@naver.com"
+          git config --global user.name "chee2e"
+          git checkout ${{ github.ref }}
+          git add results.json
+          git commit -m "Add Trivy scan results"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
