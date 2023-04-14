@@ -63,7 +63,7 @@ jobs:
           github_token: ${{ secrets.GIT_TOKEN }}
           branch: main
           directory: .
-          commit_message: Add trivy results
+          message: Add trivy results
 
 #       - name: Run Trivy vulnerability scanner in fs mode
 #         uses: aquasecurity/trivy-action@master
