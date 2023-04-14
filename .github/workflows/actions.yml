@@ -58,5 +58,20 @@ jobs:
       - name: Upload Trivy results
         uses: actions/upload-artifact@v2
         with:
-          name: trivy-results.json
-          path: .
+          name: trivy-results
+          path: trivy-results.json
+
+      - name: Download Trivy results
+        uses: actions/download-artifact@v2
+        with:
+          name: trivy-results
+          path: trivy-results.json
+
+      - name: Commit results to Git repo
+        run: |
+          git config --global user.email "pinkc47@naver.com"
+          git config --global user.name "chee2e"
+          git add trivy-results.json
+          git commit -m "Add Trivy scan results"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
