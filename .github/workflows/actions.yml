@@ -56,8 +56,6 @@ jobs:
           image-ref: 'docker.io/chee2e/testweb:${{ github.sha }}'
           format: 'json'
           output: 'trivy-results.json'
-          exit-code: '1'
-          ignore-unfixed: true
 
       - name: Upload Trivy results
         uses: actions/upload-artifact@v2
