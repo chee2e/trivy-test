@@ -58,8 +58,8 @@ jobs:
           output: 'trivy-results.json'
           exit-code: '1'
           ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+#           vuln-type: 'os,library'
+#           severity: 'CRITICAL,HIGH'
 
       - name: Add JSON file to Git repository
         run: |
